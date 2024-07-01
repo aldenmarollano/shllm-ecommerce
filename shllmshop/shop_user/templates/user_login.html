@@ -6,9 +6,15 @@
     <label for="username">Username:</label>
     <input type="text" name="username">
     <label for="password">Password:</label>
-    <input type="text" name="password">
-
+    <input type="password" name="password">
     <button value="submit">Login</button>
 </form>
+{% if errors %}
+<ul>
+    {% for message in errors %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}
