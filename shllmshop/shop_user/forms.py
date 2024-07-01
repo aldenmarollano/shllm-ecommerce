@@ -5,4 +5,4 @@ from .models import ShopUser
 class ShopUserForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = ShopUser
-        fields = ('first_name', 'last_name','password1', 'password2', 'username', 'email')
+        fields = ('first_name', 'last_name','password1', 'password2', 'username', 'email', 'birth_date')

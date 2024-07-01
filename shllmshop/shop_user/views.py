@@ -17,8 +17,6 @@ class UserRegistration(View):
     def post(self, request):
         form = ShopUserForm(request.POST)
         if form.is_valid():
-            # user = form.save(commit=False)
-            # user.set_password(form.cleaned_data['user_password'])
             form.save()
         else:
             print(form.errors)
