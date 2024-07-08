@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from shop_user.urls import *
+from dashboard.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('shopuser/', include('shop_user.urls'))
+    path('accounts/profile/', ProfileView.as_view(), name='profile'),
+    path('accounts/', include('allauth.urls')),
 ]
