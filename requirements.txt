@@ -1,3 +1,7 @@
 django
 djangorestframework
 mysqlclient
+django-allauth
+requests
+PyJWT
+cryptography
