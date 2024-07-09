@@ -1,0 +1,16 @@
+{% extends "account/base_entrance.html" %}
+{% load allauth i18n %}
+{% block content %}
+<h1>Sign Up</h1>
+<form action="">
+    {{ form.as_p }}
+    <button class="btn btn-primary">Submit</button>
+</form>
+
+<a href="{% url 'account_login' %}">Sign in</a>
+
+{% if SOCIALACCOUNT_ENABLED %}
+        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+{% endif %}
+
+{% endblock content %}
