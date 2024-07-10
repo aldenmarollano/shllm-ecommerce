@@ -17,47 +17,81 @@
             {% if messages %}
                 <div>
                     <strong>{% trans "Messages:" %}</strong>
-                    <ul>
+                    <ul>bar
                         {% for message in messages %}<li>{{ message }}</li>{% endfor %}
                     </ul>
                 </div>
             {% endif %}
-            <div>
-                <ul class="nav">
-                    {% if user.is_authenticated %}
-                        {% url 'account_email' as email_url %}
-                        {% if email_url %}
-                            <li>
-                                <a href="{{ email_url }}">{% trans "Change Email" %}</a>
-                            </li>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ms-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            {% url 'account_email' as email_url %}
+                            {% if email_url %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ email_url }}">{% trans "Change Email" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'account_change_password' as change_password_url %}
+                            {% if change_password_url %}
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="{{ change_password_url }}">{% trans "Change Password" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'mfa_index' as mfa_url %}
+                            {% if mfa_url %}
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'usersessions_list' as usersessions_list_url %}
+                            {% if usersessions_list_url %}
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'account_logout' as logout_url %}
+                            {% if logout_url %}
+                                <li class="dropdown-item">
+                                    <a class="dropdown-item" href="{{ logout_url }}">{% trans "Sign Out" %}</a>
+                                </li>
+                            {% endif %}
+                            {% else %}
+                            {% url 'account_login' as login_url %}
+                            {% if login_url %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ login_url }}">{% trans "Sign In" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'account_signup' as signup_url %}
+                            {% if signup_url %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ signup_url }}">{% trans "Sign Up" %}</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
-                        {% url 'account_change_password' as change_password_url %}
-                        {% if change_password_url %}
-                            <li>
-                                <a href="{{ change_password_url }}">{% trans "Change Password" %}</a>
-                            </li>
-                        {% endif %}
-                        {% url 'mfa_index' as mfa_url %}
-                        {% if mfa_url %}
-                            <li>
-                                <a href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
-                            </li>
-                        {% endif %}
-                        {% url 'usersessions_list' as usersessions_list_url %}
-                        {% if usersessions_list_url %}
-                            <li>
-                                <a href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
-                            </li>
-                        {% endif %}
-                        {% url 'account_logout' as logout_url %}
-                        {% if logout_url %}
-                            <li>
-                                <a href="{{ logout_url }}">{% trans "Sign Out" %}</a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </div>
+                    </ul>
+                </div>
+              </nav>
             {% block content %}
             {% endblock content %}
         {% endblock body %}

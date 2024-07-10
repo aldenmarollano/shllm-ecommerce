@@ -1,16 +1,48 @@
 {% extends "account/base_entrance.html" %}
 {% load allauth i18n %}
 {% block content %}
-<h1>Sign Up</h1>
-<form action="">
-    {{ form.as_p }}
-    <button class="btn btn-primary">Submit</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mt-5">
+            <div class="card centered-form">
+                <div class="card-body">
+                    <h1 class="text-center">Sign Up</h1>
+                    {% if not SOCIALACCOUNT_ONLY %}
+                    <form class="form p-2" action="{% url 'account_signup'}%" method="POST">
+                        {% csrf_token %}
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>Error:</strong> Please correct the following errors.
+                                    <ul>
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            
+                            {% for field in form %}
+                                <div class="form-group p-2">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                        <p>Already have an account? <a href="{% url 'account_login' %}">Sign in</a></p>
 
-<a href="{% url 'account_login' %}">Sign in</a>
-
-{% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-{% endif %}
+                        {% if SOCIALACCOUNT_ENABLED %}
+                                {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+                        {% endif %}
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
