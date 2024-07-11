@@ -5,44 +5,56 @@
     {% trans "Sign In" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign In" %}
-    {% endelement %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% setvar link %}
-            <a href="{{ signup_url }}">
-            {% endsetvar %}
-            {% setvar end_link %}
-            </a>
-        {% endsetvar %}
-        {% element p %}
-            {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-        {% endelement %}
-        {% url 'account_login' as login_url %}
-        {% element form form=form method="post" action=login_url tags="entrance,login" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button type="submit" tags="prominent,login" %}
-                    {% trans "Sign In" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
-    {% endif %}
-    {% if LOGIN_BY_CODE_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element h2 %}
-            {% element button href=request_login_code_url tags="prominent,login,secondary" %}
-                {% trans "Mail me a sign-in code" %}
-            {% endelement %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mt-5">
+            <div class="card centered-form">
+                <div class="card-body">
+                    <h1 class="text-center">{% trans "Sign In" %}</h1>
+                    
+                    {% if not SOCIALACCOUNT_ONLY %}
+                        {% url 'account_signup' as signup_url %}
+                        <p>
+                            {% blocktranslate %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
+                        </p>
+                        
+                        {% url 'account_login' as login_url %}
+                        <form method="post" action="{{ login_url }}" tags="entrance login" class="form p-2">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+                            
+                            {% for field in form.visible_fields %}
+                                <div class="form-group p-2">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                            
+                            {{ redirect_field }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">
+                                {% trans "Sign In" %}
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                    
+                    {% if LOGIN_BY_CODE_ENABLED %}
+                        <h3>
+                            <a href="{{ request_login_code_url }}" class="prominent login secondary">
+                                {% trans "Mail me a sign-in code" %}
+                            </a>
+                        </h3>
+                    {% endif %}
+                    <div class="text-center">
+                        {% if SOCIALACCOUNT_ENABLED %}
+                            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

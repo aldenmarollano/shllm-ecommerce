@@ -1,5 +1,8 @@
 {% extends "account/base_entrance.html" %}
 {% load allauth i18n %}
+{% block head_title %}
+{% trans "Signup" %}
+{% endblock head_title %}
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +11,8 @@
                 <div class="card-body">
                     <h1 class="text-center">Sign Up</h1>
                     {% if not SOCIALACCOUNT_ONLY %}
-                    <form class="form p-2" action="{% url 'account_signup'}%" method="POST">
+                    {% url 'account_signup' as action_url %}
+                    <form class="form p-2" action="{{ action_url }}" tags="entrance signup"  method="POST">
                         {% csrf_token %}
                             {% if form.errors %}
                                 <div class="alert alert-danger">
@@ -23,17 +27,18 @@
                                 </div>
                             {% endif %}
                             
-                            {% for field in form %}
+                            {% for field in form.visible_fields %}
                                 <div class="form-group p-2">
                                     {{ field.label_tag }}
                                     {{ field }}
                                 </div>
                             {% endfor %}
+                            {{ redirect_field }}
                             <div class="text-center">
-                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <button class="btn btn-primary" type="submit">{% trans "Sign Up" %}</button>
                             </div>
                         </form>
-                        {% endif %}
+                {% endif %}
                         <p>Already have an account? <a href="{% url 'account_login' %}">Sign in</a></p>
 
                         {% if SOCIALACCOUNT_ENABLED %}
